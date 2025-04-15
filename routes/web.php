@@ -2,18 +2,29 @@
 
 use PhpParser\Node\Expr\PostDec;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\RegisterController; 
 use App\Http\Controllers\ComentarioController;
-use App\Http\Controllers\FollowerController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+
+// Rutas para las notificaciones
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+});
 
 
 Route::get('register', [RegisterController::class, 'index'])->name('register');
@@ -52,3 +63,14 @@ Route::get('/{user:username}', [PostController::class, 'index'])->name('posts.in
 // Siguiendo a usuarios
 Route::post('/{user:username}/follow', [FollowerController::class, 'store'])->name('users.follow');
 Route::delete('/{user:username}/unfollow', [FollowerController::class, 'destroy'])->name('users.unfollow');
+
+// Seguidores
+Route::get('/{user:username}/followers', [UserController::class, 'followers'])->name('users.followers');
+Route::get('/{user:username}/followings', [UserController::class, 'followings'])->name('users.followings');
+
+
+// Buscador de usuarios
+
+
+Route::get('/{user:username}', [PostController::class, 'index'])->name('posts.index');
+

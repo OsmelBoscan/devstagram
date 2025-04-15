@@ -19,6 +19,10 @@ class Post extends Model
         'user_id'
     ];
 
+    protected $primaryKey = 'id'; // Cambia esto si usas otra clave primaria
+
+    protected $keyType = 'int'; // Cambia esto si usas un tipo diferente (por ejemplo, string)
+
     public function user()
     {
         return $this->belongsTo(User::class)->select(['name', 'username']);
@@ -38,4 +42,5 @@ class Post extends Model
     {
         return $this->likes->contains('user_id', $user->id);
     }
+    
 }

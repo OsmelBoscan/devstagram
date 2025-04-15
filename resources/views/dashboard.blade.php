@@ -13,6 +13,7 @@
                 asset('perfiles') . '/' . $user->imagen : 
                 asset('img/usuario.svg') }}" 
                 alt="imagen usuario" 
+                class="w-full h-64 object-cover rounded-lg shadow-md"
                 />
             </div>
             <div class="md:w-8/12 lg:w-6/12 px-5 md:flex md:flex-col items-center md:items-start md:justify-center py-10 md:py-10">
@@ -35,14 +36,18 @@
                 @endauth
                 </div>
                 <p class="text-gray-800 text-sm mb-3 font-bold mt-5">
-                    {{ $user->followers->count() }}
-                    <span class="font-normal"> @choice('Seguidor|Seguidores', $user->followers->count() )</span>
+                    <a href="{{ route('users.followers', $user->username) }}" class="text-black-500 hover:text-blue-700">
+                        {{ $user->followers->count() }}
+                        <span class="font-normal"> @choice('Seguidor|Seguidores', $user->followers->count())</span>
+                    </a>
                 </p>
                 <p class="text-gray-800 text-sm mb-3 font-bold">
-                    {{ $user->followings->count() }}
-                    <span class="font-normal"> Siguiendo </span>
+                    <a href="{{ route('users.followings', $user->username) }}" class="text-black-500 hover:text-blue-700">
+                        {{ $user->followings->count() }}
+                        <span class="font-normal"> Siguiendo </span>
+                    </a>
                 </p>
-                <p class="text-gray-800 text-sm mb-3 font-bold">
+                <p class="text-black-500 text-sm mb-3 font-bold">
                     {{ $user->posts->count() }}
                     <span class="font-normal"> Post</span>
                 </p>
@@ -85,9 +90,25 @@
     </div>
     
     <section class="container mx-auto mt-10">
-        <h2 class="text-4xl text-center font-black my-10">Publicaciones</h2>
+        <div>
+            @if ($posts->count())
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    @foreach ($posts as $post)
+                        <div class="break-inside-avoid">
+                            <a href="{{ route('posts.show', ['post' => $post, 'user' => $post->user]) }}">
+                                <img src="{{ asset('uploads') . '/' . $post->imagen }}" alt="imagen del post {{ $post->titulo }}" class="w-full h-64 object-cover rounded-lg shadow-md">
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
         
-        <x-listar-post :posts="$posts" />
+                <div class="my-10">
+                    {{ $posts->links() }}
+                </div>
+            @else
+                <p class="text-center">No hay Posts, sigue a alguien para mostrar sus posts</p>
+            @endif
+        </div>
     </section>
 
 @endsection
