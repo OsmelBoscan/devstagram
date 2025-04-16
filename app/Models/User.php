@@ -75,7 +75,9 @@ class User extends Authenticatable
     {
         return $this->followers->contains($user->id);
     }
-    
-
+    public function getRouteKeyName()
+    {
+        return 'username';
+    }
     
 }

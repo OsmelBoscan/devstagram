@@ -12,6 +12,9 @@ class Post extends Model
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
 
+    protected $primaryKey = 'id'; // Cambia esto si usas otra clave primaria
+    protected $keyType = 'int';
+
     protected $fillable = [
         'titulo',
         'descripcion',
@@ -19,13 +22,10 @@ class Post extends Model
         'user_id'
     ];
 
-    protected $primaryKey = 'id'; // Cambia esto si usas otra clave primaria
-
-    protected $keyType = 'int'; // Cambia esto si usas un tipo diferente (por ejemplo, string)
 
     public function user()
     {
-        return $this->belongsTo(User::class)->select(['name', 'username']);
+        return $this->belongsTo(User::class);
     }
 
     public function comentarios()

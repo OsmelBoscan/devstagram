@@ -11,8 +11,8 @@
                 @foreach ($notifications as $notification)
                     <li class="border-b border-gray-200 py-3">
                         <p class="text-gray-700">{{ $notification->data['message'] }}</p>
-                        @if (isset($notification->data['post_id']))
-                            <a href="{{ route('posts.show', $notification->data['post_id']) }}" class="text-blue-500 hover:text-blue-700">
+                        @if (isset($notification->data['post_id']) && isset($notification->data['username']))
+                            <a href="{{ route('posts.show', ['user' => $notification->data['username'], 'post' => $notification->data['post_id']]) }}" class="text-blue-500 hover:text-blue-700">
                                 Ver publicación
                             </a>
                         @endif

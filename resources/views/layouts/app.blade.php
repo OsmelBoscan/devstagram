@@ -20,7 +20,6 @@
                     FlowStagram
                 </a>
 
-        
                 <!-- Formulario de búsqueda -->
                 <form action="{{ route('search') }}" method="GET" class="flex items-center gap-2 mt-4 md:mt-0">
                     <input 
@@ -37,30 +36,29 @@
                     </button>
                 </form>
 
-                
-        
                 <!-- Navegación -->
                 @auth
                     <nav class="flex flex-wrap gap-2 items-center mt-4 md:mt-0">
-                              <!-- Enlace a notificaciones -->
-                      <a href="{{ route('notifications.index') }}" class="relative text-gray-600 hover:text-gray-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6.002 6.002 0 0 0-4-5.659V4a2 2 0 1 0-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" />
-                        </svg>
-                        <!-- Contador de notificaciones no leídas -->
-                        @if (auth()->user()->unreadNotifications->count() > 0)
-                            <span class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-0.5">
-                                {{ auth()->user()->unreadNotifications->count() }}
-                            </span>
-                        @endif
-                    </a>
+                        <!-- Enlace a notificaciones -->
+                        <a href="{{ route('notifications.index') }}" class="relative text-gray-600 hover:text-gray-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6.002 6.002 0 0 0-4-5.659V4a2 2 0 1 0-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 1 1-6 0m6 0H9" />
+                            </svg>
+                            <!-- Contador de notificaciones no leídas -->
+                            @if (auth()->user()->unreadNotifications->count() > 0)
+                                <span class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-0.5">
+                                    {{ auth()->user()->unreadNotifications->count() }}
+                                </span>
+                            @endif
+                        </a>
+
                         <a
                             class="flex items-center gap-2 bg-white border p-2 text-gray-600 rounded text-sm uppercase font-bold cursor-pointer"
                             href="{{ route('posts.create') }}"
                         >
                             Crear
                         </a>
-        
+
                         <a class="font-bold text-gray-600 text-sm" 
                             href="{{ route('posts.index', auth()->user()->username) }}"
                         >
@@ -69,7 +67,7 @@
                                 {{ auth()->user()->username }}
                             </span>
                         </a>
-        
+
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf   
                             <button type="submit" class="font-bold uppercase text-gray-600 text-sm">
@@ -78,7 +76,7 @@
                         </form>
                     </nav>
                 @endauth
-        
+
                 @guest
                     <nav class="flex flex-wrap gap-2 items-center mt-4 md:mt-0">
                         <a class="font-bold uppercase text-gray-600 text-sm" href="{{ route('login') }}">Login</a>

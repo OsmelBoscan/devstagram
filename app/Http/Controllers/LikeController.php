@@ -16,7 +16,7 @@ class LikeController extends Controller
         ]);
 
         // Enviar notificación al autor del post
-        if ($post->user_id !== $request->user()->id) { // Evitar notificar al autor si él mismo da like
+        if ($post->user && $post->user_id !== $request->user()->id) { // Evitar notificar al autor si él mismo da like
             $post->user->notify(new LikeNotification($post, $request->user()));
         }
 

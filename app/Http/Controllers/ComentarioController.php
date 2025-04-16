@@ -6,28 +6,28 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Comentario;
 use Illuminate\Http\Request;
+use App\Notifications\CommentNotification;
 
 class ComentarioController extends Controller
 {
-    public function store(Request $request, User $user, Post $post)
+    public function store(Request $request,User $user, Post $post)
     {
-     
-        // Validar
+        // Validar el comentario
         $request->validate([
             'comentario' => 'required|max:255',
         ]);
-
-        // Almacenar
-
+    
+        // Crear el comentario
         Comentario::create([
             'user_id' => auth()->user()->id,
             'post_id' => $post->id,
             'comentario' => $request->comentario
         ]);
-
-        // imprimir un mensaje
-
-        return back()->with('mensaje', 'Comentario realizado correctamente');
+        if ($post->user_id !== $request->user()->id) { // Evitar notificar al autor si él mismo comenta
+            $post->user->notify(new CommentNotification($post, $request->user()));
+        }
+    
+        return back()->with('mensaje', 'Comentario agregado correctamente');
     }
 
 }
